@@ -1,0 +1,7 @@
+{
+  "subject": "Verify Your Account Immediately",
+  "from": "security@fakebank-login.com",
+  "to": ["employee@company.com", "admin@company.com"],
+  "body": "Your account has been flagged. Click http://fakebank-login.com/verify to secure it. Failure to act may lock your account.",
+  "urls": ["http://fakebank-login.com/verify"]
+}

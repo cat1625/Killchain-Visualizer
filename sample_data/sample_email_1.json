@@ -1,0 +1,7 @@
+{
+  "subject": "Urgent: Invoice Attached",
+  "from": "ceo@acme-evil.com",
+  "to": ["you@company.com"],
+  "body": "Please review attached invoice. Click http://bad-example.com/pay to pay now.",
+  "urls": ["http://bad-example.com/pay"]
+}

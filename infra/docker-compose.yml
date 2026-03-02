@@ -1,0 +1,57 @@
+services:
+  backend:
+    build:
+      context: ../backend        # ✅ path fixed (relative to infra/)
+      dockerfile: Dockerfile
+    container_name: infra-backend-1
+    depends_on:
+      neo4j:
+        condition: service_started
+    environment:
+      NEO4J_PASS: myStrongNeo4jPass   # 🔑 set a real password
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      VT_API_KEY: ""                  # 🔑 put your VirusTotal API key here
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ../frontend       # ✅ path fixed (relative to infra/)
+      dockerfile: Dockerfile
+    container_name: infra-frontend-1
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  neo4j:
+    image: neo4j:5.18
+    container_name: infra-neo4j-1
+    environment:
+      NEO4J_AUTH: neo4j/myStrongNeo4jPass   # must match NEO4J_PASS above
+      NEO4J_dbms_memory_heap_initial__size: 512M
+      NEO4J_dbms_memory_heap_max__size: 1G
+      NEO4J_dbms_memory_pagecache_size: 512M
+    ports:
+      - "7474:7474"  # Browser UI
+      - "7687:7687"  # Bolt protocol for backend
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  neo4j_data:

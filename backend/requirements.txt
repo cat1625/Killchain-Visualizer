@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+py2neo==2021.2.4
+pydantic
+python-dotenv
+aiohttp
+tldextract
+requests
